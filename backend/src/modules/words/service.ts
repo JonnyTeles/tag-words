@@ -1,14 +1,14 @@
 import { AppError } from "../../errors/AppError";
-import { iWord, iWordService, iWordCreate } from "../../interfaces/word-interface";
+import { word, wordServiceInterface, wordCreate } from "../../interfaces/word-interface";
 import { prisma } from "../../prisma/client";
 
-export class wordService implements iWordService {
-    async create(iWordCreate: iWordCreate): Promise<iWord> {
+export class wordService implements wordServiceInterface {
+    async create(wordCreate: wordCreate): Promise<word> {
         try {
             const createdWord = await prisma.words.create({
                 data: {
-                    word: iWordCreate.word,
-                    usersId: iWordCreate.userId,
+                    word: wordCreate.word,
+                    usersId: wordCreate.userId,
                     created_at: new Date(),
                     updated_at: new Date(),
                 }, include: {
@@ -27,7 +27,7 @@ export class wordService implements iWordService {
         }
     }
 
-    async getAll(): Promise<iWord[]> {
+    async getAll(): Promise<word[]> {
         const words = await prisma.words.findMany({ where: { deleted: false } });
         if (words.length === 0) {
             throw new AppError('Nenhuma palavra cadastrada', 404);
@@ -35,7 +35,7 @@ export class wordService implements iWordService {
         return words
     }
 
-    async getById(id: string): Promise<iWord> {
+    async getById(id: string): Promise<word> {
         const words = await prisma.words.findUnique({
             where: {
                 id,
@@ -56,7 +56,7 @@ export class wordService implements iWordService {
         return words
     }
 
-    async getByName(name: string): Promise<iWord> {
+    async getByName(name: string): Promise<word> {
         const words = await prisma.words.findUnique({
             where: {
                 word: name,
@@ -90,7 +90,7 @@ export class wordService implements iWordService {
         }) //TODO - ADICIONAR RETURN
     }
 
-    async getAllDeleted(): Promise<iWord[]> {
+    async getAllDeleted(): Promise<word[]> {
         const words = await prisma.words.findMany({ where: { deleted: true } });
         if (words.length === 0) {
             throw new AppError('Nenhuma palavra deletada', 404);

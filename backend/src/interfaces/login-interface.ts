@@ -1,15 +1,15 @@
-import { iUser } from "./user-interface";
+import { user } from "./user-interface";
 
 export interface iLogin {
     email: string;
     password: string;
 }
 
-export interface iLoggedUser {
-    user: Omit<iUser, 'password'>;
+export interface loggedUser {
+    user: Omit<user, 'password'>;
     token: string;
 }
 
-export interface iLoginService {
-    login(data: iLogin): Promise<iLoggedUser>
+export interface LoginServiceInterface {
+    login(data: iLogin): Promise<loggedUser>
 }

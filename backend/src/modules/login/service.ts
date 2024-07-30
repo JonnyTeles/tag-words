@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import { AppError } from "../../errors/AppError";
-import { iLoggedUser, iLogin, iLoginService } from "../../interfaces/login-interface";
+import { loggedUser, iLogin, LoginServiceInterface } from "../../interfaces/login-interface";
 import { prisma } from "../../prisma/client";
 import jwt from 'jsonwebtoken'
 
 
-export class loginService implements iLoginService {
-    async login(data: iLogin): Promise<iLoggedUser> {
+export class loginService implements LoginServiceInterface {
+    async login(data: iLogin): Promise<loggedUser> {
         const login = await prisma.users.findUnique({
             where: {
                 email: data.email

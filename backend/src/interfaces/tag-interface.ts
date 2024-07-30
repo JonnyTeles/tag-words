@@ -1,9 +1,9 @@
-import { iUser } from "./user-interface";
+import { user } from "./user-interface";
 
-export interface iTag {
+export interface tag {
     id: string;
     tag: string;
-    users?: iUser;
+    users?: user;
     created_at: Date;
     updated_at: Date;
     deleted_at?: Date | null;

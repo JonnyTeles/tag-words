@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { wordService } from "./service";
-import { AppError } from "../../errors/AppError";
 
 export class wordController {
     private service: wordService;

@@ -1,13 +1,13 @@
-import { iTag } from "./tag-interface";
-import { iWord } from "./word-interface";
+import { tag } from "./tag-interface";
+import { word } from "./word-interface";
 
-export interface iUser {
+export interface user {
     id: string;
     name: string;
     email: string;
     password: string;
-    words?: iWord
-    tags?: iTag;
+    words?: word
+    tags?: tag;
     created_at: Date;
     updated_at: Date;
     deleted_at?: Date | null;
@@ -15,12 +15,12 @@ export interface iUser {
     rolesId: number;
 }
 
-export interface iUserCreate {
+export interface userCreate {
     name: string;
     email: string;
     password: string;
 }
 
-export interface iUserService {
-    create(data: iUserCreate): Promise<Partial<iUser>>;
+export interface userServiceInterface {
+    create(data: userCreate): Promise<Partial<user>>;
 }
