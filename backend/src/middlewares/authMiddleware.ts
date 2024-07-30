@@ -7,6 +7,9 @@ type jwtPayload = {
     id: string
 }
 
+
+//TODO - COLOCAR AUTH PARA ADM
+
 export const authMiddleweare = async (req: Request, res: Response, next: NextFunction) => {
 
     const { authorization } = req.headers
