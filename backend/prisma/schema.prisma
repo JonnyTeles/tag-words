@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:root@localhost:3306/palavra?schema=public"
+}
+
+model Words {
+  id         String      @id @default(uuid())
+  word       String      @unique
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  deleted_at DateTime?    
+  deleted    Boolean     @default(false)
+  usersId    String?
+  Users      Users?      @relation(fields: [usersId], references: [id])
+  Tag_Words  Tag_Words[]
+
+  @@map("words")
+}
+
+model Tags {
+  id         String      @id @default(uuid())
+  tag        String      @unique
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  deleted_at DateTime?
+  deleted    Boolean     @default(false)
+  usersId    String?
+  Users      Users?      @relation(fields: [usersId], references: [id])
+  Tag_Words  Tag_Words[]
+
+  @@map("tags")
+}
+
+model Users {
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  password      String
+  created_words Words[]
+  created_tags  Tags[]
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  deleted_at    DateTime?
+  deleted       Boolean     @default(false)
+  rolesId       Int         @default(1)
+  Roles         Roles?      @relation(fields: [rolesId], references: [id])
+  Tag_Words     Tag_Words[]
+
+  @@map("users")
+}
+
+model Tag_Words {
+  wordId String
+  tagId  String
+  userId String
+
+  word Words @relation(fields: [wordId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tag  Tags  @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([wordId, tagId, userId])
+  @@map("tag_words")
+}
+
+model Roles {
+  id    Int     @id @default(autoincrement())
+  role  String  @unique
+  users Users[]
+
+  @@map("roles")
+}
