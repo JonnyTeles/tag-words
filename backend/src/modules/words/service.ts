@@ -87,7 +87,7 @@ export class wordService implements iWordService {
                 deleted_at: new Date(),
                 deleted: true
             }
-        })
+        }) //TODO - ADICIONAR RETURN
     }
 
     async getAllDeleted(): Promise<iWord[]> {
