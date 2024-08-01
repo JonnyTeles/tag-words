@@ -9,10 +9,10 @@ datasource db {
 
 model Words {
   id         String      @id @default(uuid())
-  word       String      @unique
+  word       String
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
-  deleted_at DateTime?    
+  deleted_at DateTime?
   deleted    Boolean     @default(false)
   usersId    String?
   Users      Users?      @relation(fields: [usersId], references: [id])
@@ -23,7 +23,7 @@ model Words {
 
 model Tags {
   id         String      @id @default(uuid())
-  tag        String      @unique
+  tag        String
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
   deleted_at DateTime?

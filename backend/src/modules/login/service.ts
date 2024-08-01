@@ -26,7 +26,7 @@ export class loginService implements LoginServiceInterface {
         const { password, ...userLogin } = login
 
         return {
-            user: login,
+            user: login, //TODO - REMOVER DELETED DO RETURN
             token: token
         }
     }

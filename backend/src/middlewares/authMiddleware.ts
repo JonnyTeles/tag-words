@@ -18,7 +18,7 @@ export const authMiddleweare = async (req: Request, res: Response, next: NextFun
 
     const token = authorization.split(' ')[1]
 
-    const { id } = jwt.verify(token, process.env.JWT_SECRET ?? '') as JwtPayload 
+    const { id } = jwt.verify(token, process.env.JWT_SECRET ?? '') as JwtPayload
 
     const user = await prisma.users.findUnique({
         where: {
@@ -30,8 +30,7 @@ export const authMiddleweare = async (req: Request, res: Response, next: NextFun
 
     const { password, ...userLogin } = user
 
-    //@ts-ignore
-    req.user = userLogin //TODO - COLOCAR TIPAGEM
+    req.user = userLogin
 
     next()
 }

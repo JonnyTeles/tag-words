@@ -9,11 +9,12 @@ const controller = new wordController(service);
 const wordRoutes = Router();
 
 wordRoutes.use(authMiddleweare)
-wordRoutes.get("/", (req, res) => controller.getAllWords(req, res));
-wordRoutes.get("/id", (req, res) => controller.getById(req, res));
-wordRoutes.get("/name", (req, res) => controller.getByName(req, res));
+wordRoutes.get("/all", (req, res) => controller.getAllWords(req, res));
+wordRoutes.get("/get-id", (req, res) => controller.getById(req, res));
+wordRoutes.get("/get-name", (req, res) => controller.getByName(req, res));
 wordRoutes.get("/allDeleted", (req, res) => controller.getAllDeleted(req, res)); //TODO COLOCAR APENAS PARA ADM
-wordRoutes.post("/", (req, res) => controller.create(req, res));
-wordRoutes.delete("/", (req, res) => controller.delete(req, res));
+wordRoutes.post("/create", (req, res) => controller.create(req, res));
+wordRoutes.patch("/update", (req, res) => controller.update(req, res))
+wordRoutes.delete("/delete", (req, res) => controller.delete(req, res));
 
 export { wordRoutes };

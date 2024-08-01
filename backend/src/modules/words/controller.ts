@@ -9,8 +9,7 @@ export class wordController {
 
     async create(req: Request, res: Response) {
         const { word } = req.body
-        //@ts-ignore
-        const { id } = req.user //TODO - COLOCAR TIPAGEM
+        const { id } = req.user
         const wordCreate = {
             word,
             userId: id
@@ -40,6 +39,19 @@ export class wordController {
         const { name } = req.query
         const result = await this.service.getByName(String(name));
         return res.status(200).json(result)
+    }
+
+    async update(req: Request, res: Response) {
+        const { id } = req.query
+        const { word } = req.body
+        const wordUpdate = {
+            id: String(id),
+            word
+        }
+        const result = await this.service.update(wordUpdate)
+        return res.status(200).json({
+            updated: result
+        });
     }
 
     async delete(req: Request, res: Response) {

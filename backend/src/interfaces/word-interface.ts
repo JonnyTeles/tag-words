@@ -15,11 +15,17 @@ export interface wordCreate {
     userId: string;
 }
 
+export interface wordUpdate {
+    id: string;
+    word: string;
+}
+
 export interface wordServiceInterface {
     create(data: wordCreate): Promise<word>;
     getAll(): Promise<word[]>;
     getById(id: string): Promise<word>;
     getByName(name: string): Promise<word>;
     getAllDeleted(): Promise<word[]>;
+    update(data: wordUpdate): Promise<word>;
     delete(id: string): Promise<void>;
 }                                                        
