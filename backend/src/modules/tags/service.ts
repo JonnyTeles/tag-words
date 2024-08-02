@@ -1,8 +1,8 @@
 import { AppError } from "../../errors/AppError";
-import { tag, tagCreate, tagServiceCreate, tagUpdate } from "../../interfaces/tag-interface";
+import { tag, tagCreate, tagServiceInterface, tagUpdate } from "../../interfaces/tag-interface";
 import { prisma } from "../../prisma/client";
 
-export class tagService implements tagServiceCreate {
+export class tagService implements tagServiceInterface {
     async create(data: tagCreate): Promise<tag> {
         const tagExist = await prisma.tags.findFirst({
             where: {
@@ -39,7 +39,6 @@ export class tagService implements tagServiceCreate {
         if (tags.length === 0) throw new AppError('Nenhuma tag cadastrada', 404)
 
         return tags
-
     }
 
     async getById(id: string): Promise<tag> {
@@ -104,5 +103,4 @@ export class tagService implements tagServiceCreate {
         }
         return deletedTags
     }
-
 }

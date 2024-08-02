@@ -20,7 +20,7 @@ export interface tagUpdate {
     tag: string;
 }
 
-export interface tagServiceCreate {
+export interface tagServiceInterface {
     create(data: tagCreate): Promise<tag>;
     getAll(): Promise<tag[]>;
     getById(id: string): Promise<tag>;

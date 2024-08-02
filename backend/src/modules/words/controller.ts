@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { wordService } from "./service";
+import { wordCreate, wordUpdate } from "../../interfaces/word-interface";
 
 export class wordController {
     private service: wordService;
@@ -10,7 +11,7 @@ export class wordController {
     async create(req: Request, res: Response) {
         const { word } = req.body
         const { id } = req.user
-        const wordCreate = {
+        const wordCreate: wordCreate = {
             word,
             userId: id
         }
@@ -44,7 +45,7 @@ export class wordController {
     async update(req: Request, res: Response) {
         const { id } = req.query
         const { word } = req.body
-        const wordUpdate = {
+        const wordUpdate: wordUpdate = {
             id: String(id),
             word
         }

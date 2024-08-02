@@ -23,10 +23,10 @@ export class loginService implements LoginServiceInterface {
             expiresIn: '1d'
         })
 
-        const { password, ...userLogin } = login
+        const { password, deleted, deleted_at, ...userLogin } = login
 
         return {
-            user: login, //TODO - REMOVER DELETED DO RETURN
+            user: userLogin, 
             token: token
         }
     }

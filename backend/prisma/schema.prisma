@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:root@localhost:3306/palavra?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 model Words {
@@ -54,6 +54,7 @@ model Users {
 }
 
 model Tag_Words {
+  id     String @id @default(uuid())
   wordId String
   tagId  String
   userId String
@@ -62,7 +63,6 @@ model Tag_Words {
   tag  Tags  @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user Users @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@id([wordId, tagId, userId])
   @@map("tag_words")
 }
 

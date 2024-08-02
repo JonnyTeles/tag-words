@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { tagService } from "./service";
+import { tagCreate, tagUpdate } from "../../interfaces/tag-interface";
 
 export class tagController {
     private service: tagService
@@ -10,7 +11,7 @@ export class tagController {
     async create(req: Request, res: Response) {
         const { tag } = req.body
         const { id } = req.user
-        const tagCreate = {
+        const tagCreate: tagCreate = {
             tag,
             userId: id
         }
@@ -40,7 +41,7 @@ export class tagController {
     async update(req: Request, res: Response) {
         const { id } = req.query
         const { tag } = req.body
-        const tagUpdate = {
+        const tagUpdate: tagUpdate = {
             id: String(id),
             tag
         }

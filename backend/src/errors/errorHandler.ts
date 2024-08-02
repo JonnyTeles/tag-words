@@ -13,6 +13,8 @@ function errorHandler(err: any, req: Request, res: Response, next: NextFunction)
                 return res.status(409).json({ message: 'Já cadastrado' });
             case 'P2026':
                 return res.status(404).json({ message: 'Registro não encontrado' });
+            case 'P2003':
+                return res.status(404).json({ message: 'A palavra ou tag que você tentou associar não existe. Verifique se ambos os IDs são válidos.' });
             default:
                 return res.status(500).json({ message: 'Erro interno do servidor' });
         }

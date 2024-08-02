@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { userService } from "./service";
+import { userCreate } from "../../interfaces/user-interface";
 
 export class userController {
     private service: userService;
@@ -9,7 +10,7 @@ export class userController {
 
     async create(req: Request, res: Response) {
         const { name, email, password } = req.body;
-        const userCreate = { name, email, password }
+        const userCreate: userCreate = { name, email, password }
 
         const userCreated = await this.service.create(userCreate)
 

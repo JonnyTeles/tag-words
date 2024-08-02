@@ -6,7 +6,7 @@ export interface iLogin {
 }
 
 export interface loggedUser {
-    user: Omit<user, 'password'>;
+    user: Omit<user, 'password' | 'deletedAt' | 'deleted'>;
     token: string;
 }
 

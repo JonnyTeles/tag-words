@@ -13,8 +13,8 @@ export class userService implements userServiceInterface {
             }
         })
 
-        const { password, ...userCrated } = user
+        const { password, deleted, deleted_at, rolesId, ...userCreated } = user
 
-        return userCrated
+        return userCreated
     }
 }
