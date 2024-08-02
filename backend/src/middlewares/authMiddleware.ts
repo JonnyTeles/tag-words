@@ -69,3 +69,29 @@ export const authMiddleweareOnlyYour = async (req: Request, res: Response, next:
 
     return res.status(403).json({ error: 'Acesso não autorizado.' });
 }
+
+export const authMiddleweareAdmin = async (req: Request, res: Response, next: NextFunction) => {
+
+    const { authorization } = req.headers
+
+    if (!authorization) throw new AppError('Não autorizado', 403)
+
+    const token = authorization.split(' ')[1]
+
+    const { id } = jwt.verify(token, process.env.JWT_SECRET ?? '') as JwtPayload
+
+    const user = await prisma.users.findUnique({
+        where: {
+            id
+        }
+    })
+
+    if (!user) throw new AppError('Não autorizado', 403)
+    if (user.rolesId !== 2) throw new AppError('Não autorizado', 403)
+
+    const { password, ...userLogin } = user
+
+    req.user = userLogin
+
+    next()
+}

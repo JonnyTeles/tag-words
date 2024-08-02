@@ -1,10 +1,10 @@
 export const roles = [
     {
         id: 1,
-        role: 'Admin'
+        role: 'User'
     },
     {
         id: 2,
-        role: 'User'
+        role: 'Admin'
     }
 ];
