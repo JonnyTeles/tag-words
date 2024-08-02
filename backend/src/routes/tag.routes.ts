@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { tagController } from "../modules/tags/controller";
 import { tagService } from "../modules/tags/service";
-import { authMiddleweare } from "../middlewares/authMiddleware";
+import { authMiddleweare, authMiddleweareOnlyYour } from "../middlewares/authMiddleware";
 
 const service = new tagService();
 const controller = new tagController(service);
