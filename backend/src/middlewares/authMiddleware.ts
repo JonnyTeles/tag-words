@@ -86,8 +86,7 @@ export const authMiddleweareAdmin = async (req: Request, res: Response, next: Ne
         }
     })
 
-    if (!user) throw new AppError('Não autorizado', 403)
-    if (user.rolesId !== 2) throw new AppError('Não autorizado', 403)
+    if (!user || user.rolesId !== 2 ) throw new AppError('Não autorizado', 403)
 
     const { password, ...userLogin } = user
 
