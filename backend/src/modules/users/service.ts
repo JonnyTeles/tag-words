@@ -17,4 +17,20 @@ export class userService implements userServiceInterface {
 
         return userCreated
     }
+
+    async createAdmin(data: userCreate): Promise<Partial<user>> {
+        const passwordHash = await bcrypt.hash(data.password, 8)
+        const userAdmin = await prisma.users.create({
+            data: {
+                name: data.name,
+                email: data.email,
+                password: passwordHash,
+                rolesId: 2
+            }
+        })
+
+        const { password, deleted, deleted_at, rolesId, ...userAdminCreated } = userAdmin
+
+        return userAdminCreated
+    }
 }

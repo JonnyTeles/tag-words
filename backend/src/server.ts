@@ -1,11 +1,13 @@
 import "express-async-errors"
 import express from 'express';
 import logger from "morgan"
+import cors from 'cors';
 import { routes } from "./routes"
 import { errorHandler } from "./errors/errorHandler"
 
 
 const app = express()
+app.use(cors());
 app.use(express.json())
 
 app.use(logger('dev'))

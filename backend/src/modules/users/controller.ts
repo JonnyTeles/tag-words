@@ -18,4 +18,15 @@ export class userController {
             created: userCreated
         });
     }
+
+    async createAdmin(req: Request, res: Response) {
+        const { name, email, password } = req.body;
+        const userCreate: userCreate = { name, email, password }
+
+        const userCreated = await this.service.createAdmin(userCreate)
+
+        return res.status(200).json({
+            created: userCreated
+        });
+    }
 }

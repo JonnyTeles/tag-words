@@ -8,11 +8,11 @@ const controller = new tagController(service);
 
 const tagRoutes = Router();
 
-tagRoutes.use(authMiddleweare)
 tagRoutes.get("/all", (req, res) => controller.getAllTags(req, res));
+tagRoutes.use(authMiddleweare)
 tagRoutes.get("/get-id", (req, res) => controller.getById(req, res));
 tagRoutes.get("/get-name", (req, res) => controller.getByName(req, res));
-tagRoutes.get("/allDeleted", authMiddleweareAdmin, (req, res) => controller.getAllDeleted(req, res)); //TODO COLOCAR APENAS PARA ADM
+tagRoutes.get("/allDeleted", authMiddleweareAdmin, (req, res) => controller.getAllDeleted(req, res)); 
 tagRoutes.post("/create", (req, res) => controller.create(req, res));
 tagRoutes.patch("/update", (req, res) => controller.update(req, res))
 tagRoutes.delete("/delete", (req, res) => controller.delete(req, res));

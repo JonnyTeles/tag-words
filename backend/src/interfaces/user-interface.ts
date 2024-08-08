@@ -23,4 +23,5 @@ export interface userCreate {
 
 export interface userServiceInterface {
     create(data: userCreate): Promise<Partial<user>>;
+    createAdmin(data: userCreate): Promise<Partial<user>>;
 }
