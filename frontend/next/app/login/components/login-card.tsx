@@ -5,17 +5,23 @@ import Form from "design-system/components/Form";
 import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Title from "design-system/components/Title";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
     email: string;
     password: string;
 }
 
-const handleSubmit = (values: FormValues) => {
-    console.log('Valores do formulário:', values);
-};
-
 const LoginCard: React.FC = () => {
+    const router = useRouter()
+    const handleSubmit = (values: FormValues) => {
+        console.log('Valores do formulário:', values);
+    };
+
+    const handleRegister = () => {
+        router.push('/register')
+    }
+    
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Card className="w-full max-w-md p-6 shadow-lg">
@@ -39,7 +45,7 @@ const LoginCard: React.FC = () => {
                         <Button type="primary" htmlType="submit" className="w-full mb-4">
                             Entrar
                         </Button>
-                        <Button type="link" className="w-full text-center">
+                        <Button type="link" className="w-full text-center" onClick={handleRegister}>
                             Não possui uma conta? Crie uma
                         </Button>
                     </div>

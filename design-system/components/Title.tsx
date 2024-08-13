@@ -1,4 +1,4 @@
-import { Typography as BaseTypography, TypographyProps } from 'antd';
+import { Typography as BaseTypography } from 'antd';
 import React from 'react';
 const { Title: BaseTitle } = BaseTypography;
 
