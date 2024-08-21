@@ -4,6 +4,7 @@ import Card from "design-system/components/Card";
 import Form from "design-system/components/Form";
 import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
+import Link from "design-system/components/Link";
 import Title from "design-system/components/Title";
 import { useRouter } from "next/navigation";
 
@@ -21,7 +22,7 @@ const LoginCard: React.FC = () => {
     const handleRegister = () => {
         router.push('/register')
     }
-    
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Card className="w-full max-w-md p-6 shadow-lg">
@@ -42,12 +43,12 @@ const LoginCard: React.FC = () => {
                         <Input type="password" required placeholder="Insira sua senha..." />
                     </FormItem>
                     <div className="flex flex-col items-center">
-                        <Button type="primary" htmlType="submit" className="w-full mb-4">
+                        <Button type="primary" htmlType="submit" className="w-full m-4">
                             Entrar
                         </Button>
-                        <Button type="link" className="w-full text-center" onClick={handleRegister}>
+                        <Link className="w-full text-center" onClick={handleRegister}>
                             Não possui uma conta? Crie uma
-                        </Button>
+                        </Link>
                     </div>
                 </Form>
             </Card>

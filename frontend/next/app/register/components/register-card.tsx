@@ -7,29 +7,33 @@ import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Title from "design-system/components/Title";
 import { FormValues } from "../types/register-types";
-import { register } from "./register-utils";
-import Alert from "design-system/components/Alert";
+import { login, register } from "./register-utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "design-system/components/Link";
+import Notification from "design-system/components/Notification";
+
 
 const httpClient = new AxiosHttpClientAdapter();
 
 const RegisterCard: React.FC = () => {
   const router = useRouter()
-  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (values: FormValues) => {
+    setLoading(true);
     try {
-      await register(httpClient, values)
-      router.push('/login') //TODO - FAZER LOGIN DIRTO
+      await register(httpClient, values);
+      const loggedUser = await login(httpClient, values);
+      console.log(loggedUser);
+      // router.push('/login');
     } catch (error: any) {
-      console.error(error)
-      setError(error.message)
+      console.error(error);
+      Notification.error('Erro!', error.message);
+    } finally {
+      setLoading(false);
     }
   };
-
-  const handleAlertClose = () => {
-    setError('')
-  }
 
   const handleLogin = () => {
     router.push('/login')
@@ -39,15 +43,6 @@ const RegisterCard: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md p-6 shadow-lg">
         <Title level={1} className="mb-4 text-center">Criar conta</Title>
-        {error ? (
-          <Alert
-            message={error}
-            type="error"
-            closable
-            className="m-4"
-            onClose={handleAlertClose}
-          />
-        ) : null}
         <Form layout="vertical" onFinish={handleSubmit}>
           <FormItem
             label="Nome"
@@ -93,12 +88,12 @@ const RegisterCard: React.FC = () => {
             <Input type="password" required placeholder="Confirme sua senha..." />
           </FormItem>
           <div className="flex flex-col items-center">
-            <Button type="primary" htmlType="submit" className="w-full mb-4">
+            <Button type="primary" htmlType="submit" className="w-full m-4" disabled={loading}>
               Criar conta
             </Button>
-            <Button type="link" className="w-full text-center" onClick={handleLogin}>
+            <Link onClick={handleLogin}>
               Já possui uma conta? Faça login
-            </Button>
+            </Link>
           </div>
         </Form>
       </Card>

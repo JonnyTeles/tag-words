@@ -12,3 +12,14 @@ export async function register(httpClient: HttpClient, values: FormValues) {
         }
     });
 }
+
+export async function login(httpClient: HttpClient, values: FormValues) {
+    return await httpClient.request({
+        url: 'http://localhost:3333/login', //TODO - ADICIONAR ENV
+        method: 'post',
+        body: {
+            email: values.email,
+            password: values.password
+        }
+    });
+}
