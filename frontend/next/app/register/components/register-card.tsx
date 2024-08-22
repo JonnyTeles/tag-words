@@ -1,18 +1,17 @@
 "use client"
-import { AxiosHttpClientAdapter, HttpClient } from "@/adapters/axios-adapter";
+import { AxiosHttpClientAdapter } from "@/app/adapters/axios-adapter";
 import Button from "design-system/components/Button";
 import Card from "design-system/components/Card";
 import Form from "design-system/components/Form";
 import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Title from "design-system/components/Title";
+import Link from "design-system/components/Link";
+import Notification from "design-system/components/Notification";
 import { FormValues } from "../types/register-types";
 import { login, register } from "./register-utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "design-system/components/Link";
-import Notification from "design-system/components/Notification";
-
 
 const httpClient = new AxiosHttpClientAdapter();
 
@@ -29,14 +28,14 @@ const RegisterCard: React.FC = () => {
       // router.push('/login');
     } catch (error: any) {
       console.error(error);
-      Notification.error('Erro!', error.message);
+      Notification.error('Erro ao criar a conta!', error.message);
     } finally {
       setLoading(false);
     }
   };
 
   const handleLogin = () => {
-    router.push('/login')
+    router.push('/api/auth/signin')
   }
 
   return (

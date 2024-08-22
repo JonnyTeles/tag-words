@@ -19,7 +19,8 @@ export class AxiosHttpClientAdapter implements HttpClient {
             axiosResponse = await axios.request({
                 url: data.url,
                 method: data.method,
-                data: data.body
+                data: data.body,
+                headers: data.headers || {},
             });
         } catch (error) {
             const _error = error as AxiosError<{ message: string }>

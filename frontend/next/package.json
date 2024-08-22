@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "axios": "^1.7.3",
+    "cookies-next": "^4.2.1",
+    "design-system": "workspace:*",
     "next": "14.2.5",
+    "next-auth": "^4.24.7",
     "react": "^18",
-    "react-dom": "^18",
-    "design-system": "workspace:*" 
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",

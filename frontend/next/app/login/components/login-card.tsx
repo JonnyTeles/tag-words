@@ -5,8 +5,11 @@ import Form from "design-system/components/Form";
 import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Link from "design-system/components/Link";
+import Notification from "design-system/components/Notification";
 import Title from "design-system/components/Title";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface FormValues {
     email: string;
@@ -15,8 +18,32 @@ interface FormValues {
 
 const LoginCard: React.FC = () => {
     const router = useRouter()
-    const handleSubmit = (values: FormValues) => {
-        console.log('Valores do formulário:', values);
+    const [loading, setLoading] = useState(false);
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl');
+
+    useEffect(() => {
+        if (!callbackUrl) {
+            router.push('/api/auth/signin')
+        }
+    }, [])
+
+    const handleSubmit = async (values: FormValues) => {
+        setLoading(true)
+        const { email, password } = values;
+        const result = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+        });
+
+        if (result?.error) {
+            console.error(result.error);
+            setLoading(false)
+            return Notification.error('Erro ao fazer login!', result.error);
+        }
+        router.push('/home')
+        setLoading(false)
     };
 
     const handleRegister = () => {
@@ -43,7 +70,7 @@ const LoginCard: React.FC = () => {
                         <Input type="password" required placeholder="Insira sua senha..." />
                     </FormItem>
                     <div className="flex flex-col items-center">
-                        <Button type="primary" htmlType="submit" className="w-full m-4">
+                        <Button type="primary" htmlType="submit" className="w-full m-4" disabled={loading}>
                             Entrar
                         </Button>
                         <Link className="w-full text-center" onClick={handleRegister}>

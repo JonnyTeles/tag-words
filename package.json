@@ -7,9 +7,12 @@
         "design-system"
     ],
     "scripts": {
-        "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend/next\""
-      },
+        "dev": "pnpm -r run dev"
+    },
     "devDependencies": {
         "concurrently": "^8.2.2"
+    },
+    "dependencies": {
+        "@types/react": "^18"
     }
 }

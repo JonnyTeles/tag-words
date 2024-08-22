@@ -8,8 +8,8 @@ const controller = new tagController(service);
 
 const tagRoutes = Router();
 
-tagRoutes.get("/all", (req, res) => controller.getAllTags(req, res));
 tagRoutes.use(authMiddleweare)
+tagRoutes.get("/all", (req, res) => controller.getAllTags(req, res));
 tagRoutes.get("/get-id", (req, res) => controller.getById(req, res));
 tagRoutes.get("/get-name", (req, res) => controller.getByName(req, res));
 tagRoutes.get("/allDeleted", authMiddleweareAdmin, (req, res) => controller.getAllDeleted(req, res)); 

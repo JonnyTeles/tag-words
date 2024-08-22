@@ -8,8 +8,8 @@ const controller = new wordController(service);
 
 const wordRoutes = Router();
 
-wordRoutes.get("/all", (req, res) => controller.getAllWords(req, res));
 wordRoutes.use(authMiddleweare)
+wordRoutes.get("/all", (req, res) => controller.getAllWords(req, res));
 wordRoutes.get("/get-id", (req, res) => controller.getById(req, res));
 wordRoutes.get("/get-name", (req, res) => controller.getByName(req, res));
 wordRoutes.get("/allDeleted", authMiddleweareAdmin, (req, res) => controller.getAllDeleted(req, res)); 

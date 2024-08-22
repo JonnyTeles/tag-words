@@ -27,7 +27,6 @@ type Props = {
 
 const ApiCard: FC<Props> = ({ words, tags }) => {
 
-    console.log(words)
     const wordList = words.map((word) => (
         <li key={word.id}>{word.word}</li>
     ));

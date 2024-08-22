@@ -1,9 +1,9 @@
-import { HttpClient } from "@/adapters/axios-adapter";
-import { FormValues } from "../types/register-types";
+import { HttpClient } from "@/app/adapters/axios-adapter";
+import { FormValues, LoginValues } from "../types/register-types";
 
 export async function register(httpClient: HttpClient, values: FormValues) {
     return await httpClient.request({
-        url: 'http://localhost:3333/users/create', //TODO - ADICIONAR ENV
+        url: `${process.env.NEXT_PUBLIC_API_URL}/users/create`,
         method: 'post',
         body: {
             name: values.name,
@@ -13,13 +13,19 @@ export async function register(httpClient: HttpClient, values: FormValues) {
     });
 }
 
-export async function login(httpClient: HttpClient, values: FormValues) {
-    return await httpClient.request({
-        url: 'http://localhost:3333/login', //TODO - ADICIONAR ENV
-        method: 'post',
-        body: {
-            email: values.email,
-            password: values.password
-        }
-    });
+export async function login(httpClient: HttpClient, values: LoginValues) {
+    try {
+        const response = await httpClient.request({
+            url: `${process.env.NEXT_PUBLIC_API_URL}/login`,
+            method: 'post',
+            body: {
+                email: values.email,
+                password: values.password
+            },
+            headers: { "Content-Type": "application/json" }
+        });
+        return response;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
 }

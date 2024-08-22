@@ -8,8 +8,6 @@
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
     "seed": "ts-node prisma/seed.ts"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "bcrypt": "^5.1.1",
