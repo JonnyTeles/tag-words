@@ -16,10 +16,6 @@ const UserPage: React.FC = () => {
     const router = useRouter()
     const jwt = getCookie("jwt")
     useEffect(() => {
-        if (!session) {
-            router.push('/api/auth/signin');
-            return;
-        }
         async function fetchData() {
             try {
                 const wordsResponse = await getAllWords(httpClient);
@@ -34,7 +30,7 @@ const UserPage: React.FC = () => {
         }
 
         fetchData();
-    }, []);
+    }, [getAllWords, getAllTags, httpClient]);
 
     async function getAllWords(httpClient: HttpClient) {
         return await httpClient.request({

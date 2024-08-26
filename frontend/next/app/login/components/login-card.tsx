@@ -7,7 +7,6 @@ import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Link from "design-system/components/Link";
 import Title from "design-system/components/Title";
-import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,7 +18,6 @@ interface FormValues {
 const LoginCard: React.FC = () => {
     const router = useRouter()
     const [loading, setLoading] = useState(false);
-    const { data: session } = useSession();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl');
 
@@ -27,10 +25,7 @@ const LoginCard: React.FC = () => {
         if (!callbackUrl) {
             router.push('/api/auth/signin')
         }
-        if (session) {
-            router.push('/home');
-        }
-    }, [session, router, callbackUrl]) //TODO - PENSAR SE TEM ALGUMA FORMA MELHOR DE FAZER ISSO
+    }, [ router, callbackUrl]) 
 
     const handleLoginSubmit = async (values: FormValues) => {
         setLoading(true);

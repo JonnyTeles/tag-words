@@ -9,24 +9,17 @@ import Title from "design-system/components/Title";
 import Link from "design-system/components/Link";
 import { FormValues } from "../types/register-types";
 import { register } from "./register-utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { performLogin } from "@/app/functions/perform-login";
 import { handleErrorNotification } from "@/app/functions/handle-error-notification";
-import { useSession } from "next-auth/react";
 
 const httpClient = new AxiosHttpClientAdapter();
 
 const RegisterCard: React.FC = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false);
-  const { data: session } = useSession();
-  useEffect(() => {
-    if (session) {
-      router.push('/home');
-    }
-  }, [session, router]) //TODO - PENSAR SE TEM ALGUMA FORMA MELHOR DE FAZER ISSO
-  
+
   const handleRegisterSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
