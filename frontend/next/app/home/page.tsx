@@ -64,7 +64,7 @@ const UserPage: React.FC = () => {
 
     return (
         <>
-            <h1>TÁ FUNCIONANDO</h1>
+            <h1>OLÁ {session?.user?.name}</h1>
             <ApiCard
                 words={words}
                 tags={tags} />

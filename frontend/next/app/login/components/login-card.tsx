@@ -1,13 +1,12 @@
 "use client"
+import { performLogin } from "@/app/functions/perform-login";
 import Button from "design-system/components/Button";
 import Card from "design-system/components/Card";
 import Form from "design-system/components/Form";
 import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Link from "design-system/components/Link";
-import Notification from "design-system/components/Notification";
 import Title from "design-system/components/Title";
-import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -28,22 +27,17 @@ const LoginCard: React.FC = () => {
         }
     }, [])
 
-    const handleSubmit = async (values: FormValues) => {
-        setLoading(true)
-        const { email, password } = values;
-        const result = await signIn("credentials", {
-            redirect: false,
-            email,
-            password,
-        });
-
-        if (result?.error) {
-            console.error(result.error);
-            setLoading(false)
-            return Notification.error('Erro ao fazer login!', result.error);
+    const handleLoginSubmit = async (values: FormValues) => {
+        setLoading(true);
+        try {
+            const loginSuccess = await performLogin(values);
+            if (!loginSuccess) {
+                return;
+            }
+            router.push('/home');
+        } finally {
+            setLoading(false);
         }
-        router.push('/home')
-        setLoading(false)
     };
 
     const handleRegister = () => {
@@ -54,7 +48,7 @@ const LoginCard: React.FC = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Card className="w-full max-w-md p-6 shadow-lg">
                 <Title level={1} className="mb-4 text-center">Login</Title>
-                <Form onFinish={handleSubmit} layout="vertical">
+                <Form onFinish={handleLoginSubmit} layout="vertical">
                     <FormItem
                         label="E-mail"
                         name="email"

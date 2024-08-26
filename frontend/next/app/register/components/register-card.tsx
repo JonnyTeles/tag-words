@@ -7,11 +7,12 @@ import FormItem from "design-system/components/FormItem";
 import Input from "design-system/components/Input";
 import Title from "design-system/components/Title";
 import Link from "design-system/components/Link";
-import Notification from "design-system/components/Notification";
 import { FormValues } from "../types/register-types";
-import { login, register } from "./register-utils";
+import { register } from "./register-utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { performLogin } from "@/app/functions/perform-login";
+import { handleErrorNotification } from "@/app/functions/handle-error-notification";
 
 const httpClient = new AxiosHttpClientAdapter();
 
@@ -19,16 +20,20 @@ const RegisterCard: React.FC = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (values: FormValues) => {
+
+  const handleRegisterSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
       await register(httpClient, values);
-      const loggedUser = await login(httpClient, values);
-      console.log(loggedUser);
-      // router.push('/login');
+      const loginSuccess = await performLogin(values);
+
+      if (!loginSuccess) {
+        return router.push('/login');
+      }
+
+      router.push('/home');
     } catch (error: any) {
-      console.error(error);
-      Notification.error('Erro ao criar a conta!', error.message);
+      handleErrorNotification(error, 'Erro ao criar a conta!');
     } finally {
       setLoading(false);
     }
@@ -42,7 +47,7 @@ const RegisterCard: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md p-6 shadow-lg">
         <Title level={1} className="mb-4 text-center">Criar conta</Title>
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form layout="vertical" onFinish={handleRegisterSubmit}>
           <FormItem
             label="Nome"
             name="name"

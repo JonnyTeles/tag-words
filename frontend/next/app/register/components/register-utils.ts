@@ -13,6 +13,8 @@ export async function register(httpClient: HttpClient, values: FormValues) {
     });
 }
 
+//TODO - MOVER PARA FUNCTIONS
+
 export async function login(httpClient: HttpClient, values: LoginValues) {
     try {
         const response = await httpClient.request({
