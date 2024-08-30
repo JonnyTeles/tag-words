@@ -22,6 +22,21 @@ export class relationController {
         });
     }
 
+
+    async createMany(req: Request, res: Response) {
+        const { tagId, wordId } = req.body;
+        const { id } = req.user
+        const relationCreate = {
+            tagId: tagId,
+            wordId: wordId,
+            userid: id,
+        };
+        const result = await this.service.createMany(relationCreate)
+        return res.status(200).json({
+            created: result
+        });
+    }
+
     async getAllRelations(req: Request, res: Response) {
         const result = await this.service.getAll()
         return res.status(200).json(result)

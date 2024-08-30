@@ -25,8 +25,15 @@ export interface relationCreate {
     userId: string;
 }
 
+export interface relationCreateMany {
+    wordId: string;
+    tagId: string[];
+    userid: string;
+}
+
 export interface relactionServiceInterface {
     create(data: relationCreate): Promise<relation>;
+    createMany(data: relationCreateMany): Promise<relation[]>;
     getAll(): Promise<relation[]>;
     getById(id: string): Promise<relation>
     update(data: relationUpdate): Promise<relation>;

@@ -1,5 +1,5 @@
 import { AppError } from "../../errors/AppError";
-import { relactionServiceInterface, relation, relationCreate, relationUpdate } from "../../interfaces/relation-interface";
+import { relactionServiceInterface, relation, relationCreate, relationCreateMany, relationUpdate } from "../../interfaces/relation-interface";
 import { prisma } from "../../prisma/client";
 
 export class relationService implements relactionServiceInterface {
@@ -40,6 +40,49 @@ export class relationService implements relactionServiceInterface {
         return result
     }
 
+    async createMany(data: relationCreateMany): Promise<relation[]> {
+        const tagIds = Array.isArray(data.tagId) ? data.tagId : [data.tagId];
+    
+        const existingRelations = await prisma.tag_Words.findMany({
+            where: {
+                wordId: data.wordId,
+                userId: data.userid,
+                tagId: {
+                    in: tagIds,
+                },
+            },
+        });
+    
+        const existingTagIds = existingRelations.map(relation => relation.tagId);
+        const allExist = tagIds.every(tagId => existingTagIds.includes(tagId));
+    
+        if (allExist) throw new AppError('Estas relações já foram criadas!', 400);
+    
+        const newRelations = tagIds
+            .filter(tagId => !existingTagIds.includes(tagId))
+            .map(tagId => ({
+                wordId: data.wordId,
+                tagId,
+                userId: data.userid,
+            }));
+    
+        await prisma.tag_Words.createMany({
+            data: newRelations,
+            skipDuplicates: true,
+        });
+    
+        const createdRelations = await prisma.tag_Words.findMany({
+            where: {
+                wordId: data.wordId,
+                userId: data.userid,
+                tagId: {
+                    in: tagIds,
+                },
+            },
+        });
+    
+        return createdRelations;
+    }
     async getAll(): Promise<relation[]> {
         const result = await prisma.tag_Words.findMany({
             select: {

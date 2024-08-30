@@ -30,6 +30,10 @@ function errorHandler(err: any, req: Request, res: Response, next: NextFunction)
         return res.status(403).json({
             message: 'Não autorizado'
         })
+    } else if (err instanceof SyntaxError) {
+        return res.status(400).json({
+            message: `Erro de sintaxe: ${err.message}`
+        })
     } else {
         console.error('\x1b[31mERRO NÃO TRATADO!\n' + err + '\x1b[0m');
         return res.status(500).json({ message: 'Erro interno do servidor' });

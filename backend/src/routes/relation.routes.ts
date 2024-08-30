@@ -12,6 +12,7 @@ relationRoutes.use(authMiddleweare)
 relationRoutes.get("/all", (req, res) => controller.getAllRelations(req, res));
 relationRoutes.get("/get-id", (req, res) => controller.getById(req, res));
 relationRoutes.post("/create", (req, res) => controller.create(req, res));
+relationRoutes.post("/create-many", (req, res) => controller.createMany(req, res));
 relationRoutes.patch("/update", (req, res) => controller.update(req, res))
 relationRoutes.delete("/delete", (req, res) => controller.delete(req, res));
 

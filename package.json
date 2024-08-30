@@ -7,7 +7,9 @@
         "design-system"
     ],
     "scripts": {
-        "dev": "pnpm -r run dev"
+        "backend": "npm run dev -w backend",
+        "frontend": "npm run dev -w frontend/next",
+        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "devDependencies": {
         "concurrently": "^8.2.2"
