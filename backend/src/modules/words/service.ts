@@ -60,7 +60,7 @@ export class wordService implements wordServiceInterface {
 
     async getYours(userId: string): Promise<word[]> {
         const words = await prisma.words.findMany({
-            where: { usersId: userId }
+            where: { usersId: userId, deleted: false }
         })
 
         if (words.length === 0) throw new AppError('Nenhuma palavra cadastrada', 404)
@@ -119,7 +119,7 @@ export class wordService implements wordServiceInterface {
             }
         })
     }
-
+    //TODO - COLOCAR APENAS PARA DELETAR A SUA
     async getAllDeleted(): Promise<word[]> {
         const deletedWords = await prisma.words.findMany({ where: { deleted: true } });
         if (deletedWords.length === 0) {

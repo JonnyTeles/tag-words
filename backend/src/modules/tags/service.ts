@@ -67,7 +67,7 @@ export class tagService implements tagServiceInterface {
 
     async getYours(userId: string): Promise<tag[]> {
         const tags = await prisma.tags.findMany({
-            where: { usersId: userId }
+            where: { usersId: userId, deleted: false }
         })
         
         if (tags.length === 0) throw new AppError('Nenhuma tag cadastrada', 404)

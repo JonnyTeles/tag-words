@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosHeaders, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 type HttpRequest = {
     url: string;
@@ -24,7 +24,7 @@ export class AxiosHttpClientAdapter implements HttpClient {
             });
         } catch (error) {
             const _error = error as AxiosError<{ message: string }>
-            throw new Error(_error.response?.data.message)
+            throw new Error(_error.response?.data.message || 'Erro interno do servidor')
         }
         return {
             statusCode: axiosResponse.status,
