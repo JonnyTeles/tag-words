@@ -52,8 +52,18 @@ export class wordService implements wordServiceInterface {
                     }
                 }
             },
-        }); //TODO - AJEITAR JSON DO RESULTADO - REMOVER DELETED
+        });
         if (!words) throw new AppError(`Palavra com ID ${id} nao encontrada`, 404);
+
+        return words
+    }
+
+    async getYours(userId: string): Promise<word[]> {
+        const words = await prisma.words.findMany({
+            where: { usersId: userId }
+        })
+
+        if (words.length === 0) throw new AppError('Nenhuma palavra cadastrada', 404)
 
         return words
     }

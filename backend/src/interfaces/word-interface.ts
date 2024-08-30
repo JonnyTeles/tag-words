@@ -23,6 +23,7 @@ export interface wordUpdate {
 export interface wordServiceInterface {
     create(data: wordCreate): Promise<word>;
     getAll(): Promise<word[]>;
+    getYours(userId: string): Promise<word[]>;
     getById(id: string): Promise<word>;
     getByName(name: string): Promise<word>;
     getAllDeleted(): Promise<word[]>;

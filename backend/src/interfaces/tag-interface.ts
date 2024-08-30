@@ -24,6 +24,7 @@ export interface tagServiceInterface {
     create(data: tagCreate): Promise<tag>;
     getAll(): Promise<tag[]>;
     getById(id: string): Promise<tag>;
+    getYours(userId: string): Promise<tag[]>;
     getByName(name: string): Promise<tag>;
     getAllDeleted(): Promise<tag[]>;
     update(data: tagUpdate): Promise<tag>;

@@ -65,6 +65,16 @@ export class tagService implements tagServiceInterface {
         return tag
     }
 
+    async getYours(userId: string): Promise<tag[]> {
+        const tags = await prisma.tags.findMany({
+            where: { usersId: userId }
+        })
+        
+        if (tags.length === 0) throw new AppError('Nenhuma tag cadastrada', 404)
+
+        return tags
+    }
+
     async update(data: tagUpdate): Promise<tag> {
         const tag = await prisma.tags.findUnique({
             where: {

@@ -12,6 +12,7 @@ tagRoutes.use(authMiddleweare)
 tagRoutes.get("/all", (req, res) => controller.getAllTags(req, res));
 tagRoutes.get("/get-id", (req, res) => controller.getById(req, res));
 tagRoutes.get("/get-name", (req, res) => controller.getByName(req, res));
+tagRoutes.get("/get-yours", (req, res) => controller.getYours(req, res));
 tagRoutes.get("/allDeleted", authMiddleweareAdmin, (req, res) => controller.getAllDeleted(req, res)); 
 tagRoutes.post("/create", (req, res) => controller.create(req, res));
 tagRoutes.patch("/update", (req, res) => controller.update(req, res))

@@ -26,6 +26,12 @@ export class tagController {
         return res.status(200).json(result)
     }
 
+    async getYours(req: Request, res: Response) {
+        const { id } = req.user
+        const result = await this.service.getYours(id)
+        return res.status(200).json(result)
+    }
+
     async getById(req: Request, res: Response) {
         const { id } = req.query
         const result = await this.service.getById(String(id))

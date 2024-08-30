@@ -20,9 +20,16 @@ export class wordController {
             created: result
         });
     }
+    
     async getAllWords(req: Request, res: Response) {
         const result = await this.service.getAll();
         return res.status(200).json(result);
+    }
+    
+    async getYours(req: Request, res: Response) {
+        const { id } = req.user
+        const result = await this.service.getYours(id)
+        return res.status(200).json(result)
     }
 
     async getAllDeleted(req: Request, res: Response) {
