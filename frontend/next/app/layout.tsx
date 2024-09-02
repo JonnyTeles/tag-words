@@ -7,7 +7,8 @@ import PrivateRoute from "./components/private";
 import React from "react";
 import Skeleton from "design-system/components/Skeleton";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AppHeader from "./components/header/header";
+
+const queryClient = new QueryClient(); //TODO - VERIFICAR SE FOI ISSO Q FEZ FUNCIONAR
 
 export default function RootLayout({
   children,
@@ -16,7 +17,6 @@ export default function RootLayout({
 }>) {
   const pathName = usePathname();
   const isPublicPage = checkIsPublicRoute(pathName);
-  const queryClient = new QueryClient()
 
   return (
     <html lang="en">

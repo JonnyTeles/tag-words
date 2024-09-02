@@ -34,7 +34,7 @@ const LoginCard: React.FC = () => {
             if (!loginSuccess) {
                 return;
             }
-            router.push('/home');
+            router.push('/dashboard');
         } finally {
             setLoading(false);
         }

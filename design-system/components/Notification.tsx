@@ -1,28 +1,24 @@
-import { notification as BaseNotification } from 'antd';
+import { notification as BaseNotification, NotificationArgsProps } from 'antd';
 
 const Notification = {
-  success: (message: string, description?: string) => {
+  success: (props: NotificationArgsProps) => {
     BaseNotification.success({
-      message,
-      description,
+      ...props
     });
   },
-  error: (message: string, description?: string) => {
+  error: (props: NotificationArgsProps) => {
     BaseNotification.error({
-      message,
-      description,
+      ...props
     });
   },
-  info: (message: string, description?: string) => {
+  info: (props: NotificationArgsProps) => {
     BaseNotification.info({
-      message,
-      description,
+      ...props
     });
   },
-  warning: (message: string, description?: string) => {
+  warning: (props: NotificationArgsProps) => {
     BaseNotification.warning({
-      message,
-      description,
+      ...props
     });
   },
 };

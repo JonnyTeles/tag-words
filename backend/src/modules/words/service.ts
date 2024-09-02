@@ -7,7 +7,8 @@ export class wordService implements wordServiceInterface {
         const existWord = await prisma.words.findFirst({
             where: {
                 word: wordCreate.word,
-                deleted: false
+                deleted: false,
+                usersId: wordCreate.userId
             }
         })
 
@@ -82,7 +83,7 @@ export class wordService implements wordServiceInterface {
                     }
                 }
             },
-        }); //TODO - AJEITAR JSON DO RESULTADO
+        }); 
 
         if (!word) throw new AppError(`Palavra ${name} não encontrada`, 404);
 

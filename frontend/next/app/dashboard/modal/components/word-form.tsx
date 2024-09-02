@@ -6,20 +6,22 @@ import Input from "design-system/components/Input";
 import Title from "design-system/components/Title";
 
 type Props = {
-    onSubmit: (values: { tag: string }) => void;
+    onSubmit: (values: { word: string }) => void;
     onCancel: () => void;
+    isError: boolean;
 }
 
-const TagForm: React.FC<Props> = ({ onCancel, onSubmit }) => (
-    <Card className="w-full max-w-md shadow-lg">
-        <Title level={1} className="mb-4 text-center">Criar Tag</Title>
+const WordForm: React.FC<Props> = ({ onCancel, onSubmit, isError }) => (
+    <Card className="w-full max-w-md" bordered={false}>
+        <Title level={1} className="mb-4 text-center">Criar Palavra</Title>
         <Form onFinish={onSubmit} layout="vertical">
             <FormItem
-                label="Tag"
-                name="tag"
-                rules={[{ required: true, message: 'Por favor, insira uma tag!' }]}
+                label="Palavra"
+                name="word"
+                validateStatus={isError ? 'error' : ''}
+                rules={[{ required: true, message: 'Por favor, insira uma palavra!' }]}
             >
-                <Input required autoComplete='off' placeholder="Insira a tag..." />
+                <Input required autoComplete='off' placeholder="Insira a palavra..." />
             </FormItem>
             <div className="flex flex-col items-center">
                 <Button type="primary" htmlType="submit" className="w-full m-2">
@@ -33,4 +35,4 @@ const TagForm: React.FC<Props> = ({ onCancel, onSubmit }) => (
     </Card>
 )
 
-export default TagForm
+export default WordForm

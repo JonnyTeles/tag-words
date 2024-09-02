@@ -16,7 +16,7 @@ const AppHeader: React.FC<Props> = ({ session }) => {
     const [name, setName] = useState('')
     useEffect(() => {
         setName(session?.user?.name || '');
-    }, [])
+    }, [session?.user?.name])
 
     const handleLogout = async () => {
         await signOut({ redirect: false });

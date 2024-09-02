@@ -30,7 +30,7 @@ const RegisterCard: React.FC = () => {
         return router.push('/login');
       }
 
-      router.push('/home');
+      router.push('/dashboard');
     } catch (error: any) {
       handleErrorNotification(error, 'Erro ao criar a conta!');
     } finally {

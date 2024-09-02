@@ -6,11 +6,11 @@ export default function middleware(request: NextRequest) {
 
     if (isUserAuthenticated) {
         if (pathname === '/login' || pathname === '/register') {
-            return NextResponse.redirect(new URL('/home', request.url));
+            return NextResponse.redirect(new URL('/dashboard', request.url));
         }
     } else {
 
-        if (pathname === '/home') {
+        if (pathname === '/dashboard') {
             return NextResponse.redirect(new URL('/api/auth/signin', request.url));
         }
     }
@@ -20,5 +20,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/home/:path*', '/login', '/register']
+    matcher: ['/dashboard/:path*', '/login', '/register']
 }

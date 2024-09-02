@@ -7,7 +7,8 @@ export class tagService implements tagServiceInterface {
         const tagExist = await prisma.tags.findFirst({
             where: {
                 tag: data.tag,
-                deleted: false
+                deleted: false,
+                usersId: data.userId
             }
         })
 
@@ -69,7 +70,7 @@ export class tagService implements tagServiceInterface {
         const tags = await prisma.tags.findMany({
             where: { usersId: userId, deleted: false }
         })
-        
+
         if (tags.length === 0) throw new AppError('Nenhuma tag cadastrada', 404)
 
         return tags
