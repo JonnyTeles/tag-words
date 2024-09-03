@@ -3,75 +3,75 @@ import { getPaginatedItems, sortItemsAlphabetically } from "../utils/pagination"
 import { Word } from "@/app/types/word";
 import { Tag } from "@/app/types/tag";
 
-export const usePagination = (word?: Word[], tag?: Tag[]) => {
+export const usePagination = (words?: Word[], tags?: Tag[]) => {
     const [currentPageWords, setCurrentPageWords] = useState(1);
     const [currentPageTags, setCurrentPageTags] = useState(1);
 
-    const sortedWords = useMemo(() => 
-        Array.isArray(word) ? sortItemsAlphabetically(word) : [], 
-        [word]
-    );
-    
-    const sortedTags = useMemo(() => 
-        Array.isArray(tag) ? sortItemsAlphabetically(tag) : [], 
-        [tag]
+    const sortedWords = useMemo(() =>
+        Array.isArray(words) ? sortItemsAlphabetically(words) : [],
+        [words]
     );
 
-    const paginatedWords = useMemo(() => 
-        getPaginatedItems(sortedWords, currentPageWords), 
-        [sortedWords, currentPageWords]
+    const sortedTags = useMemo(() =>
+        Array.isArray(tags) ? sortItemsAlphabetically(tags) : [],
+        [tags]
     );
-    
-    const paginatedTags = useMemo(() => 
-        getPaginatedItems(sortedTags, currentPageTags), 
-        [sortedTags, currentPageTags]
+
+    const [searchTermWords, setSearchTermWords] = useState('');
+    const [searchTermTags, setSearchTermTags] = useState('');
+
+    const filteredWords = useMemo(() =>
+        sortedWords.filter(word =>
+            //@ts-ignore
+            word.word.toLowerCase().includes(searchTermWords.toLowerCase())
+        ),
+        [sortedWords, searchTermWords]
+    );
+    //TODO - Ajeitar tipagem
+    const filteredTags = useMemo(() =>
+        sortedTags.filter(tag =>
+            //@ts-ignore
+            tag.tag.toLowerCase().includes(searchTermTags.toLowerCase())
+        ),
+        [sortedTags, searchTermTags]
+    );
+
+    const paginatedWords = useMemo(() =>
+        getPaginatedItems(filteredWords, currentPageWords),
+        [filteredWords, currentPageWords]
+    );
+
+    const paginatedTags = useMemo(() =>
+        getPaginatedItems(filteredTags, currentPageTags),
+        [filteredTags, currentPageTags]
     );
 
     useEffect(() => {
-        const totalWords = sortedWords.length;
+        const totalWords = filteredWords.length;
         const maxPageWords = Math.ceil(totalWords / 5);
         if (currentPageWords > maxPageWords) {
             setCurrentPageWords(maxPageWords || 1);
         }
 
-        const totalTags = sortedTags.length;
+        const totalTags = filteredTags.length;
         const maxPageTags = Math.ceil(totalTags / 5);
         if (currentPageTags > maxPageTags) {
             setCurrentPageTags(maxPageTags || 1);
         }
-    }, [sortedWords, sortedTags, currentPageWords, currentPageTags]);
-
-    const handleDeleteWordPagination = () => {
-        const totalWords = sortedWords.length - 1;
-        const maxPage = Math.ceil(totalWords / 5);
-        if (currentPageWords > maxPage) {
-            setCurrentPageWords(maxPage || 1);
-        }
-    };
-
-    const handleDeleteTagPagination = () => {
-        const totalTags = sortedTags.length - 1;
-        const maxPage = Math.ceil(totalTags / 5);
-        if (currentPageTags > maxPage) {
-            setCurrentPageTags(maxPage || 1);
-        }
-    };
-
-    const showWords = sortedWords.length > 0;
-    const showTags = sortedTags.length > 0;
+    }, [filteredWords, filteredTags, currentPageWords, currentPageTags]);
 
     return {
-        showTags,
-        showWords,
-        currentPageTags,
         currentPageWords,
-        sortedTags,
-        sortedWords,
-        paginatedTags,
+        currentPageTags,
+        filteredWords,
+        filteredTags,
         paginatedWords,
-        setCurrentPageTags,
+        paginatedTags,
         setCurrentPageWords,
-        handleDeleteWordPagination,
-        handleDeleteTagPagination
-    }
-}
+        setCurrentPageTags,
+        setSearchTermWords,
+        setSearchTermTags,
+        searchTermWords,
+        searchTermTags,
+    };
+};

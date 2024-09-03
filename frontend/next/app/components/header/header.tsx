@@ -1,28 +1,16 @@
 "use client";
-import { deleteCookie } from "cookies-next";
 import Button from "design-system/components/Button";
 import Header from "design-system/components/Header";
 import Title from "design-system/components/Title";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import LogoutModal from "./components/logout-modal";
+import { useCustomHeader } from "./hooks/useCustomHeader";
 type Props = {
     session: Session | null
 }
 
 const AppHeader: React.FC<Props> = ({ session }) => {
-    const router = useRouter();
-    const [name, setName] = useState('')
-    useEffect(() => {
-        setName(session?.user?.name || '');
-    }, [session?.user?.name])
-
-    const handleLogout = async () => {
-        await signOut({ redirect: false });
-        router.push('/api/auth/signin');
-        deleteCookie("jwt");
-    };
+    const { handleLogout, handleModal, name, open } = useCustomHeader(session)
 
     return (
         <Header style={{
@@ -40,11 +28,12 @@ const AppHeader: React.FC<Props> = ({ session }) => {
             <Title color="black" level={3}>Olá, {name}!</Title>
             <Button
                 type='link'
-                onClick={handleLogout}
+                onClick={handleModal}
                 className="ml-auto"
             >
-                Deslogar
+                Sair
             </Button>
+            <LogoutModal handleModal={handleModal} open={open} handleLogout={handleLogout} />
         </Header>
     );
 }

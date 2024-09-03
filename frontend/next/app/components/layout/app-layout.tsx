@@ -14,7 +14,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
     const addParam = searchParams.get('add');
     const deleteParam = searchParams.get('delete');
     const isModal = searchParams.get('modal') === 'true';
-    //TODO - MODAL PARA DESLOGAR
+  
     return (
         <>
             {isLoading ? (

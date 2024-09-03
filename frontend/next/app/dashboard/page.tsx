@@ -4,7 +4,7 @@ import ApiCard from './components/api-card';
 import Skeleton from 'design-system/components/Skeleton';
 import { useCustomDashboardHooks } from './hooks/useCustomDashboard';
 
-const UserPage: React.FC = () => {
+const Dashboard: React.FC = () => {
     const { tags, words, tagsLoading, wordsLoading } = useCustomDashboardHooks()
 
     if (wordsLoading || tagsLoading) {
@@ -22,4 +22,4 @@ const UserPage: React.FC = () => {
     );
 };
 
-export default UserPage;
+export default Dashboard;

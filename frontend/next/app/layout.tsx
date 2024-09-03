@@ -8,7 +8,13 @@ import React from "react";
 import Skeleton from "design-system/components/Skeleton";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient(); //TODO - VERIFICAR SE FOI ISSO Q FEZ FUNCIONAR
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 export default function RootLayout({
   children,

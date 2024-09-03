@@ -21,7 +21,7 @@ const WordForm: React.FC<Props> = ({ onCancel, onSubmit, isError }) => (
                 validateStatus={isError ? 'error' : ''}
                 rules={[{ required: true, message: 'Por favor, insira uma palavra!' }]}
             >
-                <Input required autoComplete='off' placeholder="Insira a palavra..." />
+                <Input autoFocus required autoComplete='off' placeholder="Insira a palavra..." />
             </FormItem>
             <div className="flex flex-col items-center">
                 <Button type="primary" htmlType="submit" className="w-full m-2">

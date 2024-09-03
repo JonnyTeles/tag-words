@@ -22,7 +22,7 @@ const TagForm: React.FC<Props> = ({ onCancel, onSubmit, isError }) => {
                     validateStatus={isError ? 'error' : ''}
                     rules={[{ required: true, message: 'Por favor, insira uma tag!' }]}
                 >
-                    <Input required autoComplete='off' placeholder="Insira a tag..."  style={{ borderColor: isError ? 'red' : '' }}/>
+                    <Input autoFocus required autoComplete='off' placeholder="Insira a tag..."  style={{ borderColor: isError ? 'red' : '' }}/>
                 </FormItem>
                 <div className="flex flex-col items-center">
                     <Button type="primary" htmlType="submit" className="w-full m-2">

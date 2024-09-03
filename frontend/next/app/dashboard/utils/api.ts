@@ -14,6 +14,13 @@ export const fetchWords = async (httpClient: HttpClient) =>
         ...getAuthHeaders(),
     });
 
+export const fetchWordById = async (httpClient: HttpClient, wordId: string) =>
+    httpClient.request({
+        url: `${apiUrl}/words/get-yours`,
+        method: 'get',
+        ...getAuthHeaders(),
+    });
+
 export const fetchTags = async (httpClient: HttpClient) =>
     httpClient.request({
         url: `${apiUrl}/tags/get-yours`,

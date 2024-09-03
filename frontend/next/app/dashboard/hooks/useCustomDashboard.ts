@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { AxiosHttpClientAdapter } from "@/app/adapters/axios-adapter";
 import Notification from "design-system/components/Notification";
 import { useState } from "react";
-import { usePagination } from "./usePagination";
 import { Tag } from "@/app/types/tag";
 import { Word } from "@/app/types/word";
 
@@ -14,12 +13,11 @@ export const useCustomDashboardHooks = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
     const [error, setError] = useState(false);
-    const { handleDeleteTagPagination, handleDeleteWordPagination } = usePagination()
 
     const tagMutation = useMutation({
         mutationFn: (data: { tag: string }) => createTag(data, httpClient),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['tags'], refetchType: 'all' });
+            queryClient.invalidateQueries({ queryKey: ['tags'] });
             Notification.success({ message: "Feito", description: "Tag criada com sucesso!", duration: 5, showProgress: true });
             router.push('/dashboard');
         },
@@ -32,7 +30,7 @@ export const useCustomDashboardHooks = () => {
     const wordMutation = useMutation({
         mutationFn: (data: { word: string }) => createWord(data, httpClient),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['words'], refetchType: 'all' });
+            queryClient.invalidateQueries({ queryKey: ['words'] });
             Notification.success({ message: "Feito", description: "Palavra criada com sucesso!", duration: 5, showProgress: true });
             router.push('/dashboard');
         },
@@ -50,31 +48,14 @@ export const useCustomDashboardHooks = () => {
         mutationFn: (wordId: string) => deleteWord(wordId, httpClient),
     });
 
-    /*OLD
-        const handleDeleteWord = (wordId: string) => {
-            deleteWordMutation.mutate(wordId, {
-                onSuccess: () => {
-                    queryClient.invalidateQueries({ queryKey: ['words'] });
-                    queryClient.setQueryData(['words'], (oldData: any) => {
-                        const updatedWords = oldData.body.filter((word: any) => word.id !== wordId);
-                        return { ...oldData, body: updatedWords };
-                    });
-                    handleDeleteWordPagination()
-                    Notification.success({ message: "Feito", description: "Palavra deletada com sucesso!", duration: 5, showProgress: true });
-                    router.push('/dashboard');
-                },
-                onError: (error: any) => {
-                    Notification.error({ message: "Erro ao deletar palavra", description: error.message, duration: 5, showProgress: true });
-                }
-            });
-        };
-    */
-
     const handleDeleteWord = (wordId: string) => {
         deleteWordMutation.mutate(wordId, {
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['words'], refetchType: 'all' })
-                handleDeleteWordPagination()
+                queryClient.invalidateQueries({ queryKey: ['words'] });
+                queryClient.setQueryData(['words'], (oldData: any) => {
+                    const updatedWords = oldData.body.filter((word: any) => word.id !== wordId);
+                    return { ...oldData, body: updatedWords };
+                });
                 Notification.success({ message: "Feito", description: "Palavra deletada com sucesso!", duration: 5, showProgress: true });
                 router.push('/dashboard');
             },
@@ -87,8 +68,11 @@ export const useCustomDashboardHooks = () => {
     const handleDeleteTag = (tagId: string) => {
         deleteTagMutation.mutate(tagId, {
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['tags'], refetchType: 'all' });
-                handleDeleteTagPagination()
+                queryClient.invalidateQueries({ queryKey: ['tags'] });
+                queryClient.setQueryData(['tags'], (oldData: any) => {
+                    const updatedTags = oldData.body.filter((tag: any) => tag.id !== tagId);
+                    return { ...oldData, body: updatedTags };
+                });
                 Notification.success({ message: "Feito", description: "Tag deletada com sucesso!", duration: 5, showProgress: true });
                 router.push('/dashboard');
             },
@@ -101,23 +85,21 @@ export const useCustomDashboardHooks = () => {
     const { data: words, isLoading: wordsLoading } = useQuery({
         queryKey: ['words'],
         queryFn: () => fetchWords(httpClient),
-        staleTime: 60000,
+        staleTime: 0,
         retry: 1,
         throwOnError() {
             return false
-        },
-        enabled: true
+        }
     });
 
     const { data: tags, isLoading: tagsLoading } = useQuery({
         queryKey: ['tags'],
         queryFn: () => fetchTags(httpClient),
-        staleTime: 60000,
+        staleTime: 0,
         retry: 1,
         throwOnError() {
             return false
-        },
-        enabled: true
+        }
     });
 
     const handleAddWord = () => {
