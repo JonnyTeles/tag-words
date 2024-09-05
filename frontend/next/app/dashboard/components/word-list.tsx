@@ -66,6 +66,7 @@ const WordList: React.FC<Props> = ({ words, tags, loading }) => {
                         <ListItem key={word.id} className="flex items-center justify-between">
                             <Text>{word.word}</Text>
                             <Tooltip title='Excluir palavra' color='red'>
+                                <>
                                 <Button
                                     danger
                                     type="text"
@@ -74,12 +75,15 @@ const WordList: React.FC<Props> = ({ words, tags, loading }) => {
                                 >
                                     <DeleteTwoTones twoToneColor={'red'} className="text-lg" />
                                 </Button>
+                                </>
                             </Tooltip>
                         </ListItem>
                     ))}
                     <Space align='center' className='flex justify-center py-4'>
                         <Tooltip title='Adicionar palavra'>
+                            <>
                             <Button size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' onClick={handleAddWord} />
+                            </>
                         </Tooltip>
                     </Space>
                 </List>

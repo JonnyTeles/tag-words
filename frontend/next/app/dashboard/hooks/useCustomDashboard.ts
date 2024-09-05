@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTag, createWord, deleteTag, deleteWord, fetchTags, fetchWords } from "../utils/api";
 import { useRouter } from "next/navigation";
 import { AxiosHttpClientAdapter } from "@/app/adapters/axios-adapter";
-import Notification from "design-system/components/Notification";
 import { useState } from "react";
 import { Tag } from "@/app/types/tag";
 import { Word } from "@/app/types/word";
+import { handleNotification } from "@/app/functions/notification-handler";
 
 const httpClient = new AxiosHttpClientAdapter();
 
@@ -18,12 +18,12 @@ export const useCustomDashboardHooks = () => {
         mutationFn: (data: { tag: string }) => createTag(data, httpClient),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['tags'] });
-            Notification.success({ message: "Feito", description: "Tag criada com sucesso!", duration: 5, showProgress: true });
+            handleNotification('success', 'Feito', 'Tag criada com sucesso!')
             router.push('/dashboard');
         },
         onError: (error: any) => {
             if (error.message.includes('cadastrada')) setError(true)
-            Notification.error({ message: "Erro ao criar tag", description: error.message, duration: 5, showProgress: true });
+            handleNotification('error', 'Erro ao criar tag', error.message)
         }
     });
 
@@ -31,12 +31,12 @@ export const useCustomDashboardHooks = () => {
         mutationFn: (data: { word: string }) => createWord(data, httpClient),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['words'] });
-            Notification.success({ message: "Feito", description: "Palavra criada com sucesso!", duration: 5, showProgress: true });
+            handleNotification('success', 'Feito', 'Palavra criada com sucesso!')
             router.push('/dashboard');
         },
         onError: (error: any) => {
             if (error.message.includes('cadastrada')) setError(true)
-            Notification.error({ message: "Erro ao criar palavra", description: error.message, duration: 5, showProgress: true });
+            handleNotification('error', 'Erro ao criar palavra', error.message)
         }
     });
 
@@ -56,11 +56,11 @@ export const useCustomDashboardHooks = () => {
                     const updatedWords = oldData.body.filter((word: any) => word.id !== wordId);
                     return { ...oldData, body: updatedWords };
                 });
-                Notification.success({ message: "Feito", description: "Palavra deletada com sucesso!", duration: 5, showProgress: true });
+                handleNotification('success', 'Feito', 'Palavra deletada com sucesso!')
                 router.push('/dashboard');
             },
             onError: (error: any) => {
-                Notification.error({ message: "Erro ao deletar palavra", description: error.message, duration: 5, showProgress: true });
+                handleNotification('error', "Erro ao deletar palavra", error.message)
             }
         });
     };
@@ -73,11 +73,11 @@ export const useCustomDashboardHooks = () => {
                     const updatedTags = oldData.body.filter((tag: any) => tag.id !== tagId);
                     return { ...oldData, body: updatedTags };
                 });
-                Notification.success({ message: "Feito", description: "Tag deletada com sucesso!", duration: 5, showProgress: true });
+                handleNotification('success', 'Feito', 'Tag deletada com sucesso!')
                 router.push('/dashboard');
             },
             onError: (error: any) => {
-                Notification.error({ message: "Erro ao deletar tag", description: error.message, duration: 5, showProgress: true });
+                handleNotification('error', "Erro ao deletar tag", error.message)
             }
         });
     };
@@ -111,9 +111,8 @@ export const useCustomDashboardHooks = () => {
     }
 
     const openDelete = (id: string, name: Word | Tag) => {
-        const objName = 'word' in name ? name.word : name.tag;
         const type = 'word' in name ? 'word' : 'tag';
-        router.push(`?delete=${type}&name=${encodeURIComponent(objName)}&id=${encodeURIComponent(id)}&modal=true`);
+        router.push(`?delete=${type}&id=${encodeURIComponent(id)}&modal=true`);
     };
 
     return {

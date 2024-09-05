@@ -65,20 +65,24 @@ const TagList: React.FC<Props> = ({ tags, words, loading }) => {
                         <ListItem key={tag.id} className="flex items-center justify-between">
                             <Text>{tag.tag}</Text>
                             <Tooltip title='Excluir tag' color='red'>
-                                <Button
-                                    danger
-                                    type="text"
-                                    className="justify-end"
-                                    onClick={() => openDelete(tag.id, tag)}
-                                >
-                                    <DeleteTwoTones twoToneColor={'red'} className="text-lg" />
-                                </Button>
+                                <>
+                                    <Button
+                                        danger
+                                        type="text"
+                                        className="justify-end"
+                                        onClick={() => openDelete(tag.id, tag)}
+                                    >
+                                        <DeleteTwoTones twoToneColor={'red'} className="text-lg" />
+                                    </Button>
+                                </>
                             </Tooltip>
                         </ListItem>
                     ))}
                     <Space align='center' className='flex justify-center py-4'>
                         <Tooltip title='Adicionar tag'>
-                            <Button size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' onClick={handleAddTag} />
+                            <>
+                                <Button size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' onClick={handleAddTag} />
+                            </>
                         </Tooltip>
                     </Space>
                 </List>

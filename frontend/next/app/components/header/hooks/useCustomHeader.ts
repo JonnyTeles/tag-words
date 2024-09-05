@@ -18,6 +18,7 @@ export const useCustomHeader = (session: Session | null) => {
     const handleLogout = async () => {
         await signOut({ redirect: false });
         queryClient.clear();
+        queryClient.removeQueries();
         router.push('/api/auth/signin');
         deleteCookie("jwt");
     };
