@@ -6,7 +6,7 @@ import { AxiosHttpClientAdapter } from "@/app/adapters/axios-adapter";
 
 const httpClient = new AxiosHttpClientAdapter();
 
-export const useCustomDeleteHooks = () => {
+export const useCustomDelete = () => {
     const router = useRouter();
     const searchParams = useSearchParams()
     const [params, setParams] = useState<string | null>(null);

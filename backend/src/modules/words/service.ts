@@ -51,6 +51,13 @@ export class wordService implements wordServiceInterface {
                         name: true,
                         email: true
                     }
+                },
+                Tag_Words: {
+                    select: {
+                        tagId: true,
+                        tag: true,
+                        id: true
+                    }
                 }
             },
         });
@@ -83,7 +90,7 @@ export class wordService implements wordServiceInterface {
                     }
                 }
             },
-        }); 
+        });
 
         if (!word) throw new AppError(`Palavra ${name} não encontrada`, 404);
 
@@ -118,6 +125,9 @@ export class wordService implements wordServiceInterface {
                 deleted_at: new Date(),
                 deleted: true
             }
+        })
+        await prisma.tag_Words.deleteMany({
+            where: { wordId: id },
         })
     }
     //TODO - COLOCAR APENAS PARA DELETAR A SUA

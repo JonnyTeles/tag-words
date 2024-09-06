@@ -1,12 +1,12 @@
 "use client"
 import Modal from 'design-system/components/Modal';
-import { useCustomDashboardHooks } from '../hooks/useCustomDashboard';
 import DeleteConfirm from './components/delete-confirm';
-import { useCustomDeleteHooks } from '../hooks/useCustomDeleteHooks';
+import { useCustomDelete } from '../hooks/useCustomDelete';
+import { useCustomDashboard } from '../hooks/useCustomDashboard';
 
 const DeleteModal: React.FC = () => {
-    const { handleDeleteTag, handleDeleteWord } = useCustomDashboardHooks()
-    const { handleCancel, id, name, params } = useCustomDeleteHooks()
+    const { handleDeleteTag, handleDeleteWord } = useCustomDashboard()
+    const { handleCancel, id, name, params } = useCustomDelete()
 
     return (
         <>

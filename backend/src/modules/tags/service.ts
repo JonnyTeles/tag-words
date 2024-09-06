@@ -105,6 +105,9 @@ export class tagService implements tagServiceInterface {
                 deleted_at: new Date()
             }
         })
+        await prisma.tag_Words.deleteMany({
+            where: { tagId: id },
+        })
     }
 
     async getAllDeleted(): Promise<tag[]> {

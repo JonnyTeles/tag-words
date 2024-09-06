@@ -12,9 +12,12 @@ import Tooltip from "design-system/components/Tooltip"
 import DeleteTwoTones from "design-system/icons/DeleteTwoTone"
 import PlusOutlined from "design-system/icons/PlusOutlined"
 import React from "react"
-import { useCustomDashboardHooks } from "../hooks/useCustomDashboard"
+
 import { usePagination } from "../hooks/usePagination"
 import { Tag } from "@/app/types/tag"
+import { useRouter } from "next/navigation"
+import { useCustomDashboard } from "../hooks/useCustomDashboard"
+import Link from "design-system/components/Link"
 
 type Props = {
     words?: Word[];
@@ -23,11 +26,16 @@ type Props = {
 }
 
 const WordList: React.FC<Props> = ({ words, tags, loading }) => {
-    const { handleAddWord, openDelete } = useCustomDashboardHooks();
+    const router = useRouter()
+    const { handleAddWord, openDelete } = useCustomDashboard();
     const pagination = usePagination(words, tags);
 
     const showEmptyStateWords = !pagination.searchTermWords && (words === undefined || words.length === 0);
     const showNotFoundWords = pagination.searchTermWords && pagination.filteredWords.length === 0;
+
+    const handleWordPage = (id: string) => {
+        router.push(`/dashboard/word/${id}`)
+    }
 
     return (
         <Card className='flex-1'>
@@ -64,17 +72,17 @@ const WordList: React.FC<Props> = ({ words, tags, loading }) => {
                 >
                     {pagination.paginatedWords.map((word: any) => (
                         <ListItem key={word.id} className="flex items-center justify-between">
-                            <Text>{word.word}</Text>
+                            <Link onClick={() => handleWordPage(word.id)}>{word.word}</Link>
                             <Tooltip title='Excluir palavra' color='red'>
                                 <>
-                                <Button
-                                    danger
-                                    type="text"
-                                    className="justify-end"
-                                    onClick={() => openDelete(word.id, word)}
-                                >
-                                    <DeleteTwoTones twoToneColor={'red'} className="text-lg" />
-                                </Button>
+                                    <Button
+                                        danger
+                                        type="text"
+                                        className="justify-end"
+                                        onClick={() => openDelete(word.id, word)}
+                                    >
+                                        <DeleteTwoTones twoToneColor={'red'} className="text-lg" />
+                                    </Button>
                                 </>
                             </Tooltip>
                         </ListItem>
@@ -82,7 +90,7 @@ const WordList: React.FC<Props> = ({ words, tags, loading }) => {
                     <Space align='center' className='flex justify-center py-4'>
                         <Tooltip title='Adicionar palavra'>
                             <>
-                            <Button size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' onClick={handleAddWord} />
+                                <Button size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' onClick={handleAddWord} />
                             </>
                         </Tooltip>
                     </Space>

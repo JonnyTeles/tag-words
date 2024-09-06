@@ -4,14 +4,13 @@ import Modal from 'design-system/components/Modal';
 import { useEffect, useState } from 'react';
 import TagForm from './components/tag-form';
 import WordForm from './components/word-form';
-import { useCustomDashboardHooks } from '../hooks/useCustomDashboard';
-
+import { useCustomDashboard } from '../hooks/useCustomDashboard';
 
 const AddModal: React.FC = () => {
     const router = useRouter();
     const searchParams = useSearchParams()
     const [params, setParams] = useState<string | null>(null);
-    const {error, tagMutation, wordMutation} = useCustomDashboardHooks()
+    const {error, tagMutation, wordMutation} = useCustomDashboard()
 
     useEffect(() => {
         const search = searchParams.get('add');

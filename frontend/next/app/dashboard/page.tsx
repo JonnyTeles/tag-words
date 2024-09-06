@@ -2,10 +2,10 @@
 import React from 'react';
 import ApiCard from './components/api-card';
 import Skeleton from 'design-system/components/Skeleton';
-import { useCustomDashboardHooks } from './hooks/useCustomDashboard';
+import { useCustomDashboard } from './hooks/useCustomDashboard';
 
 const Dashboard: React.FC = () => {
-    const { tags, words, tagsLoading, wordsLoading } = useCustomDashboardHooks()
+    const { tags, words, tagsLoading, wordsLoading } = useCustomDashboard()
 
     if (wordsLoading || tagsLoading) {
         return <Skeleton active />;

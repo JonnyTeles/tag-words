@@ -9,7 +9,7 @@ import { handleNotification } from "@/app/functions/notification-handler";
 
 const httpClient = new AxiosHttpClientAdapter();
 
-export const useCustomDashboardHooks = () => {
+export const useCustomDashboard = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
     const [error, setError] = useState(false);

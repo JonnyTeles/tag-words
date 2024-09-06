@@ -64,3 +64,21 @@ export const deleteWord = async (wordId: string, httpClient: HttpClient) =>
         method: 'delete',
         ...getAuthHeaders(),
     });
+
+export const deleteRelation = async (relationId: string, httpClient: HttpClient) =>
+    httpClient.request({
+        url: `${apiUrl}/relations/delete?id=${relationId}`,
+        method: 'delete',
+        ...getAuthHeaders(),
+    });
+
+export const createRelation = async (wordId: string, tagIds: string[], httpClient: HttpClient) =>
+    httpClient.request({
+        url: `${apiUrl}/relations/create-many`,
+        method: 'post',
+        ...getAuthHeaders(),
+        body: {
+            tagId: tagIds,
+            wordId: wordId
+        }
+    });

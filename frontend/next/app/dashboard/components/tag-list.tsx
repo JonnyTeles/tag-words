@@ -12,8 +12,8 @@ import Title from "design-system/components/Title"
 import Tooltip from "design-system/components/Tooltip"
 import DeleteTwoTones from "design-system/icons/DeleteTwoTone"
 import PlusOutlined from "design-system/icons/PlusOutlined"
-import { useCustomDashboardHooks } from "../hooks/useCustomDashboard"
 import { usePagination } from "../hooks/usePagination"
+import { useCustomDashboard } from "../hooks/useCustomDashboard"
 
 type Props = {
     words?: Word[];
@@ -22,7 +22,7 @@ type Props = {
 }
 
 const TagList: React.FC<Props> = ({ tags, words, loading }) => {
-    const { handleAddTag, openDelete } = useCustomDashboardHooks();
+    const { handleAddTag, openDelete } = useCustomDashboard();
     const pagination = usePagination(words, tags);
 
     const showEmptyStateTags = !pagination.searchTermTags && (tags === undefined || tags.length === 0);
