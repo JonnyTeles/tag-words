@@ -14,6 +14,7 @@ export const useCustomWord = () => {
     const pathName = usePathname();
     const id = params.wordId as string;
     const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
 
     const { data: word, isLoading: isWordLoading, isFetched: isWordFetched, isError: isWordError } = useQuery({
         queryKey: ['word', id],
@@ -42,7 +43,7 @@ export const useCustomWord = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['word', id] });
                 queryClient.invalidateQueries({ queryKey: ['tags'] });
-                
+
                 handleNotification('success', 'Feito', 'Relação excluída da palavra com sucesso!');
             },
             onError: (error: any) => {
@@ -58,11 +59,12 @@ export const useCustomWord = () => {
             queryClient.invalidateQueries({ queryKey: ['tags'] });
             handleNotification('success', 'Feito', 'Relação criada com sucesso!')
             setOpen(!open)
+            setError(false)
         },
         onError: (error: any) => {
             console.error(error);
-            if (error.message.includes('criadas'))
-                handleNotification('error', 'Erro ao criar relação', error.message);
+            setError(true)
+            handleNotification('error', 'Erro ao criar relação', error.message);
         }
     });
 
@@ -86,6 +88,8 @@ export const useCustomWord = () => {
         handleBackDashboard,
         relationMutation,
         open,
-        setOpen
+        setOpen,
+        setError,
+        error
     };
 };

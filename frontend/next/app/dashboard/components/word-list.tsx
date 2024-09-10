@@ -39,7 +39,7 @@ const WordList: React.FC<Props> = ({ words, tags, loading }) => {
 
     return (
         <Card className='flex-1'>
-            <Title>Palavras</Title>
+            <Title className="!text-blue-500 text-center">Palavras</Title>
             <Input
                 placeholder="Pesquisar palavras"
                 onChange={(e) => pagination.setSearchTermWords(e.target.value)}

@@ -1,4 +1,5 @@
 import { AppError } from "../../errors/AppError";
+import { capitalizeWords } from "../../functions/captalize";
 import { word, wordServiceInterface, wordCreate, wordUpdate } from "../../interfaces/word-interface";
 import { prisma } from "../../prisma/client";
 
@@ -16,7 +17,7 @@ export class wordService implements wordServiceInterface {
 
         const createdWord = await prisma.words.create({
             data: {
-                word: wordCreate.word,
+                word: capitalizeWords(wordCreate.word),
                 usersId: wordCreate.userId,
             }, include: {
                 Users: {

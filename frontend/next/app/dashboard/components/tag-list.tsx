@@ -30,7 +30,7 @@ const TagList: React.FC<Props> = ({ tags, words, loading }) => {
 
     return (
         <Card className='flex-1'>
-            <Title>Tags</Title>
+            <Title className="!text-blue-500 text-center">Tags</Title>
             <Input
                 placeholder="Pesquisar tags"
                 onChange={(e) => pagination.setSearchTermTags(e.target.value)}

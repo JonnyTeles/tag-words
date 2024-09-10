@@ -72,7 +72,7 @@ export const deleteRelation = async (relationId: string, httpClient: HttpClient)
         ...getAuthHeaders(),
     });
 
-export const createRelation = async (wordId: string, tagIds: string[], httpClient: HttpClient) =>
+export const createRelation = async (wordId: string[] | string, tagIds: string[] | string, httpClient: HttpClient) =>
     httpClient.request({
         url: `${apiUrl}/relations/create-many`,
         method: 'post',

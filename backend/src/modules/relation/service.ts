@@ -42,10 +42,40 @@ export class relationService implements relactionServiceInterface {
 
     async createMany(data: relationCreateMany): Promise<relation[]> {
         const tagIds = Array.isArray(data.tagId) ? data.tagId : [data.tagId];
-    
+        const wordIds = Array.isArray(data.wordId) ? data.wordId : [data.wordId];
+        
+        const existingTags = await prisma.tags.findMany({
+            where: {
+                id: {
+                    in: tagIds,
+                },
+            },
+        });
+        const existingTagIds = existingTags.map(tag => tag.id);
+        const nonExistingTagIds = tagIds.filter(tagId => !existingTagIds.includes(tagId));
+        if (nonExistingTagIds.length > 0) {
+            throw new AppError(`As seguintes tags não existem: ${nonExistingTagIds.join(', ')}`, 400);
+        }
+        
+        const existingWords = await prisma.words.findMany({
+            where: {
+                id: {
+                    in: wordIds,
+                },
+            },
+        });
+
+        const existingWordIds = existingWords.map(word => word.id);
+        const nonExistingWordIds = wordIds.filter(wordId => !existingWordIds.includes(wordId));
+        if (nonExistingWordIds.length > 0) {
+            throw new AppError(`As seguintes palavras não existem: ${nonExistingWordIds.join(', ')}`, 400);
+        }
+       
         const existingRelations = await prisma.tag_Words.findMany({
             where: {
-                wordId: data.wordId,
+                wordId: {
+                    in: wordIds,
+                },
                 userId: data.userid,
                 tagId: {
                     in: tagIds,
@@ -53,36 +83,44 @@ export class relationService implements relactionServiceInterface {
             },
         });
     
-        const existingTagIds = existingRelations.map(relation => relation.tagId);
-        const allExist = tagIds.every(tagId => existingTagIds.includes(tagId));
+        const existingRelationsMap = new Set(
+            existingRelations.map(relation => `${relation.wordId}-${relation.tagId}`)
+        );
     
-        if (allExist) throw new AppError('Estas relações já foram criadas!', 400);
+        const newRelations = wordIds.flatMap(wordId =>
+            tagIds
+                .filter(tagId => !existingRelationsMap.has(`${wordId}-${tagId}`))
+                .map(tagId => ({
+                    wordId,
+                    tagId,
+                    userId: data.userid,
+                }))
+        );
     
-        const newRelations = tagIds
-            .filter(tagId => !existingTagIds.includes(tagId))
-            .map(tagId => ({
-                wordId: data.wordId,
-                tagId,
-                userId: data.userid,
-            }));
-    
+        if (newRelations.length === 0) {
+            throw new AppError('Todas as relações que você está tentando criar já existem!', 400);
+        }
+        
         await prisma.tag_Words.createMany({
             data: newRelations,
             skipDuplicates: true,
         });
-    
+        
         const createdRelations = await prisma.tag_Words.findMany({
             where: {
-                wordId: data.wordId,
+                wordId: {
+                    in: wordIds,
+                },
                 userId: data.userid,
                 tagId: {
                     in: tagIds,
                 },
             },
         });
-    
+        
         return createdRelations;
     }
+    
     async getAll(): Promise<relation[]> {
         const result = await prisma.tag_Words.findMany({
             select: {

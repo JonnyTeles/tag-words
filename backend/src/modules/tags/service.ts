@@ -1,4 +1,5 @@
 import { AppError } from "../../errors/AppError";
+import { capitalizeWords } from "../../functions/captalize";
 import { tag, tagCreate, tagServiceInterface, tagUpdate } from "../../interfaces/tag-interface";
 import { prisma } from "../../prisma/client";
 
@@ -16,7 +17,7 @@ export class tagService implements tagServiceInterface {
 
         const tagCreated = await prisma.tags.create({
             data: {
-                tag: data.tag,
+                tag: capitalizeWords(data.tag),
                 usersId: data.userId
             }, include: {
                 Users: {
