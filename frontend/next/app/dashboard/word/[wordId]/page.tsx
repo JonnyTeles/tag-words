@@ -1,11 +1,11 @@
 "use client"
 import Skeleton from "design-system/components/Skeleton"
-import { useCustomWord } from "../hooks/useCustomWord"
 import RelationModal from "../components/relation-modal"
 import WordCard from "../components/word-card"
+import { useCustomWordContext } from "../provider/custom-word-context"
 
 const WordPage: React.FC = () => {
-    const { isWordLoading, word, tags, handleDeleteTag, handleBackDashboard, relationMutation, open, setOpen, error, setError } = useCustomWord();
+    const { isWordLoading, word, tags, handleDeleteTag, handleBackDashboard, relationMutation, open, setOpen } = useCustomWordContext();
     if (isWordLoading || !word?.body) return <Skeleton active />;
 
     const creationDate = word.body.created_at ? new Date(word.body.created_at).toLocaleDateString() : 'Data não disponível';
@@ -31,17 +31,11 @@ const WordPage: React.FC = () => {
             <WordCard title={word?.body?.word}
                 creationDate={creationDate}
                 mappedTags={mappedTags}
-                handleBackDashboard={handleBackDashboard}
-                handleDeleteTag={handleDeleteTag}
-                setOpen={() => setOpen(!open)} />
+            />
             <RelationModal
                 word={word?.body?.word}
-                open={open}
                 options={options}
                 defaultTagIds={defaultTagIds}
-                setError={() => setError(false)}
-                error={error}
-                setOpen={() => setOpen(!open)}
                 handleFinish={handleFinish} />
         </div>
     );

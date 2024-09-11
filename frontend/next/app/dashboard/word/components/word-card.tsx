@@ -8,6 +8,7 @@ import Title from "design-system/components/Title"
 import Tooltip from "design-system/components/Tooltip"
 import DeleteTwoTones from "design-system/icons/DeleteTwoTone"
 import PlusOutlined from "design-system/icons/PlusOutlined"
+import { useCustomWordContext } from "../provider/custom-word-context"
 
 type Props = {
     title: string;
@@ -16,12 +17,10 @@ type Props = {
         id: string;
         tag: string;
     }[];
-    handleDeleteTag: (tagId: string) => void;
-    setOpen: () => void;
-    handleBackDashboard: () => void;
 }
 
-const WordCard: React.FC<Props> = ({ creationDate, handleBackDashboard, handleDeleteTag, mappedTags, setOpen, title }) => {
+const WordCard: React.FC<Props> = ({ creationDate, mappedTags, title }) => {
+    const { setOpen, handleBackDashboard, handleDeleteTag } = useCustomWordContext();
     return (
         <Card
             title={<Title level={1} className="text-center m-2 !text-blue-500">{title}</Title>}
@@ -63,7 +62,7 @@ const WordCard: React.FC<Props> = ({ creationDate, handleBackDashboard, handleDe
             <div className="flex flex-col items-center mt-2 gap-2">
                 <Tooltip title={'Adicionar uma tag a essa palavra'}>
                     <>
-                        <Button onClick={setOpen} size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' />
+                        <Button onClick={() => setOpen(true)} size='large' icon={<PlusOutlined style={{ fontSize: 25 }} />} type='link' />
                     </>
                 </Tooltip>
                 <Button onClick={handleBackDashboard}>Voltar</Button>
