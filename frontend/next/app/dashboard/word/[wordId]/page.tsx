@@ -5,7 +5,7 @@ import WordCard from "../components/word-card"
 import { useCustomWordContext } from "../provider/custom-word-context"
 
 const WordPage: React.FC = () => {
-    const { isWordLoading, word, tags, handleDeleteTag, handleBackDashboard, relationMutation, open, setOpen } = useCustomWordContext();
+    const { isWordLoading, word, tags, relationMutation } = useCustomWordContext();
     if (isWordLoading || !word?.body) return <Skeleton active />;
 
     const creationDate = word.body.created_at ? new Date(word.body.created_at).toLocaleDateString() : 'Data não disponível';
